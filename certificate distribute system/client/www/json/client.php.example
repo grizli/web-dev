@@ -1,0 +1,63 @@
+<?php
+require_once 'jsonRPCClient.php';
+include_once 'db.php';
+include_once 'hex2bin.php';
+echo "ok";
+$myExample = new jsonRPCClient('http://192.168.56.101/json/server.php');
+
+/*
+// performs some basic operation
+echo '<b>Attempt to perform basic operations</b><br />'."\n";
+try {
+	 $query = 'SELECT value FROM MySecurity WHERE name="CR_cert";';
+         $results = mysql_query($query);
+         $row = mysql_fetch_array($results);
+         $pub_key= $row[0];
+var_dump($pub_key);
+         $pub = openssl_pkey_get_public($pub_key);
+	$data;
+	$chiper=$myExample->giveMeSomeData('name');
+echo "</br>W";
+var_dump($chiper);
+	echo openssl_public_decrypt($chiper,$data,$pub);
+echo "</br>".'D';
+var_dump($data);
+    echo 'Your name is <i>'.$chiper.'</i><br />'."\n";
+    $myExample->changeYourState('I am using this function from the network');
+    echo 'Your status request has been accepted<br />'."\n";
+} catch (Exception $e) {
+    echo nl2br($e->getMessage()).'<br />'."\n";
+}
+
+// performs some strategic operation, locally allowed
+echo '<br /><b>Attempt to store strategic data</b><br />'."\n";
+try {
+    $myExample->writeSomething('Strategic string!');
+    echo 'Strategic data succefully stored';
+} catch (Exception $e) {
+    echo nl2br($e->getMessage());
+}
+*/
+
+echo '<br /><b>Attempt to store strategic data</b><br />'."\n";
+try {
+    $get=$myExample->proba();
+    echo 'Fetched:';
+    var_dump($get);
+	$query = 'SELECT value FROM MySecurity WHERE name="CR_cert";';
+         $results = mysql_query($query);
+         $row = mysql_fetch_array($results);
+         $pub_key= $row[0];
+//var_dump($pub_key);
+         $pub = openssl_pkey_get_public($pub_key);
+	$chiper = base64_decode($get);
+	var_dump($chiper);
+	var_dump($pub);
+	openssl_public_decrypt($chiper,&$output,$pub);
+echo "<br/>O:";
+var_dump($output);
+	
+} catch (Exception $e) {
+    echo nl2br($e->getMessage());
+}
+?>
